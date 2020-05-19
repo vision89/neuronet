@@ -1,8 +1,12 @@
 (defpackage neuronet
   (:use :cl :lla)
-  (:import-from :neuronet_utilities :REMOVE_ASSOC :REPLACE_ASSOC :RANDMATRIX))
+  (:import-from :neuronet_utilities :REMOVE_ASSOC :REPLACE_ASSOC :RANDMATRIX)
+  (:export :MAKE_NEURONET :ADD_LAYER
+                :ADD_RANDOM_LAYER :SET_ACTIVATION :SET_D_ACTIVATION
+                :SET_LEARNING_RATE :GET_LAYERS :GET_ACTIVATION
+                :GET_D_ACTIVATION :GET_LEARNING_RATE))
 
-(define MAX_RAND 1.0)
+(defconstant MAX_RAND 1.0)
 
 (defun SIGMOID (z)
   "Sigmoid function"
@@ -18,13 +22,13 @@
   (pairlis '(activation d_activation learning_rate layers)
            `(,activation ,d_activation ,learning_rate ,layers)))
 
-(defun ADD_LAYER (val layer nn)
+(defun ADD_LAYER (layer nn)
   (let ((current_layers (GET_LAYERS nn)))
     (REPLACE_ASSOC 'layers (cons layer current_layers) nn)))
 
 (defun ADD_RANDOM_LAYER (rows cols nn)
   (let ((current_layers (GET_LAYERS nn)))
-    (REPLACE_ASSOC 'layers (cons (RANDMATRIX rows cols) current_layers) nn)))
+    (REPLACE_ASSOC 'layers (cons (RANDMATRIX rows cols MAX_RAND) current_layers) nn)))
 
 (defun SET_ACTIVATION (activation nn)
   "Set the activation in the nn"
