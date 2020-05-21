@@ -36,17 +36,17 @@
     collect (RANDLIST col r)))
 
 ;;; Untested
-(defmacro OP_ON_LISTS (l1 l2 op)
+(defun OP_ON_LISTS (l1 l2 op)
   "Skeloten for performing an op on the elements of two lists and returning the list"
-  `(let ((return_l nil))
-    (setq l (min (length ,l1) (length ,l2))
+  (let ((return_l nil))
+    (setq l (min (length l1) (length l2)))
     (dotimes (n l (reverse return_l))
-             (setq return_vec (cons (,op (nth n ,l1) (nth n ,l2)) return_vec))))))
+             (setq return_l (cons (funcall op (nth n l1) (nth n l2)) return_l)))))
 
 ;;; Untested
-(defmacro VECTOR_SUBTRACT (vec1 vec2)
+(defun VECTOR_SUBTRACT (vec1 vec2)
   "Subtracts two vectors"
-  `(OP_ON_LISTS (,vec1 ,vec2 #'-)))
+  (OP_ON_LISTS vec1 vec2 #'-))
 
 ;  (let ((return_vec nil))
 ;    (setq l (min (length vec1) (length vec2))
@@ -54,9 +54,9 @@
 ;             (setq return_vec (cons (- (nth n vec1) (nth n vec2)) return_vec))))))
 
 ;;; Untested
-(defmacro MATRIX_SUBTRACT (mat1 mat2)
+(defun MATRIX_SUBTRACT (mat1 mat2)
   "Subtracts two matrixes"
-  `(OP_ON_LISTS (,mat1 ,mat2 #'VECTOR_SUBTRACT)))
+  (OP_ON_LISTS mat1 mat2 #'VECTOR_SUBTRACT))
 
 ;  (let ((return_mat nil))
 ;    (setq l (min (length mat1) (length mat2))
